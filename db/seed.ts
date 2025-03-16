@@ -33,6 +33,7 @@ async function main() {
       amount: 299.99,
       status: 'PENDING',
       dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
+      balance: 299.99,
       comments: 'This is a comment',  
     },
   });
@@ -46,6 +47,7 @@ async function main() {
       status: 'PAID',
       dueDate: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000), // 15 days ago
       paidAt: new Date(),
+      balance: 599.99,
       comments: 'This is a comment',  
     },
   });
@@ -59,6 +61,7 @@ async function main() {
       amount: 799.99,
       status: 'PENDING',
       dueDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000), // 15 days from now
+      balance: 799.99,
       comments: 'This is a comment',  
     },
   });  

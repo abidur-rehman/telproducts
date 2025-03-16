@@ -45,6 +45,7 @@ CREATE TABLE "Invoice" (
     "status" TEXT NOT NULL DEFAULT 'PENDING',
     "dueDate" TIMESTAMP(3) NOT NULL,
     "paidAt" TIMESTAMP(3),
+    "balance" DECIMAL(10,2) NOT NULL,
     "comments" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

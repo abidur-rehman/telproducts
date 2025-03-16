@@ -62,6 +62,7 @@ interface InvoiceFormProps {
       defaultValues: defaultVal,
     });
     const [isPending, startTransition] = useTransition();
+    const [isDeleting, startTransition2] = useTransition();
 
     const onSubmit: SubmitHandler<Invoice> = (data) => {
       data.customerId = customerId;
@@ -80,7 +81,7 @@ interface InvoiceFormProps {
 
     const onDelete = () => {
       console.log('invoice', invoice?.id);
-      startTransition(async () => {
+      startTransition2(async () => {
         const response = await deleteInvoiceById(invoice?.id);  
         if (response.success) {
           toast.success(response.message);
@@ -108,20 +109,10 @@ interface InvoiceFormProps {
           Please enter the invoice details for {name}
         </p>
         <Form {...form}>
-          <form
-            method='post'
-            onSubmit={form.handleSubmit(onSubmit)}
-            className='space-y-4'
-          >
+          <form method='post' onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
             <div className='flex flex-col gap-5 md:flex-row'>
-              <FormField
-                control={form.control}
-                name='customerId'
-                render={({
-                  field,
-                }: {
-                  field: ControllerRenderProps<"customerId">;
-                }) => (
+              <FormField control={form.control} name='customerId'
+                render={({field,} : {field: ControllerRenderProps<"customerId">;}) => (
                   <FormItem className='w-full'>
                     <FormLabel>Customer Id</FormLabel>
                     <FormControl>
@@ -133,16 +124,8 @@ interface InvoiceFormProps {
               />
             </div>
             <div className='flex flex-col gap-5 md:flex-row'>
-              <FormField
-                control={form.control}
-                name='number'
-                render={({
-                  field,
-                }: {
-                  field: ControllerRenderProps<
-                    z.infer<typeof invoiceSchema>,"number"
-                  >;
-                }) => (
+              <FormField control={form.control} name='number'
+                render={({field,}:{field: ControllerRenderProps<z.infer<typeof invoiceSchema>,"number">;}) => (
                   <FormItem className='w-full'>
                     <FormLabel>Number</FormLabel>
                     <FormControl>
@@ -154,30 +137,16 @@ interface InvoiceFormProps {
               />
             </div>
             <div>
-              <FormField
-                control={form.control}
-                name='invoiceDate'
-                render={({
-                  field,
-                }: {
-                  field: ControllerRenderProps<
-                    z.infer<typeof invoiceSchema>, 'invoiceDate'
-                  >;
-                }) => (
+              <FormField control={form.control} name='invoiceDate'
+                render={({field,}:{field: ControllerRenderProps<z.infer<typeof invoiceSchema>, 'invoiceDate'>;}) => (
                   <FormItem className="flex flex-col">
                   <FormLabel>Due Date</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-[240px] pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "PPP")
+                        <Button variant={"outline"}
+                          className={cn("w-[240px] pl-3 text-left font-normal",!field.value && "text-muted-foreground")}>
+                          {field.value ? (format(field.value, "PPP")
                           ) : (
                             <span>Pick a date</span>
                           )}
@@ -186,13 +155,8 @@ interface InvoiceFormProps {
                       </FormControl>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) =>
-                          date > new Date() || date < new Date("1900-01-01")
-                        }
+                      <Calendar mode="single" selected={field.value} onSelect={field.onChange} disabled={(date) =>
+                          date > new Date() || date < new Date("1900-01-01")}
                         initialFocus
                       />
                     </PopoverContent>
@@ -203,16 +167,8 @@ interface InvoiceFormProps {
               />
             </div>
             <div>
-              <FormField
-                control={form.control}
-                name='amount'
-                render={({
-                  field,
-                }: {
-                  field: ControllerRenderProps<
-                    z.infer<typeof invoiceSchema>, 'amount'
-                  >;
-                }) => (
+              <FormField control={form.control} name='amount'
+                render={({field,}: {field: ControllerRenderProps<z.infer<typeof invoiceSchema>, 'amount'>;}) => (
                   <FormItem className='w-full'>
                     <FormLabel>Amount in pounds</FormLabel>
                     <FormControl>
@@ -224,16 +180,8 @@ interface InvoiceFormProps {
               />
             </div>
             <div>
-              <FormField
-                control={form.control}
-                name='status'
-                render={({
-                  field,
-                }: {
-                  field: ControllerRenderProps<
-                    z.infer<typeof invoiceSchema>, 'status'
-                  >;
-                }) => (
+              <FormField control={form.control} name='status'
+                render={({field,}: {field: ControllerRenderProps<z.infer<typeof invoiceSchema>, 'status'>;}) => (
                   <FormItem className='w-full'>
                     <FormLabel>Status</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -246,6 +194,8 @@ interface InvoiceFormProps {
                         <SelectGroup>
                           <SelectItem value="PENDING">PENDING</SelectItem>
                           <SelectItem value="PAID">PAID</SelectItem>
+                          <SelectItem value="PARTIALLY PAID">PARTIALLY PAID</SelectItem>
+                          <SelectItem value="REFUNDED">REFUNDED</SelectItem>
                           <SelectItem value="CANCELLED">CANCELLED</SelectItem>
                         </SelectGroup>
                       </SelectContent>
@@ -256,28 +206,16 @@ interface InvoiceFormProps {
               />
             </div>
             <div>
-              <FormField
-                control={form.control}
-                name='dueDate'
-                render={({ field, }: {
-                  field: ControllerRenderProps<
-                    z.infer<typeof invoiceSchema>, 'dueDate'
-                  >;
-                }) => (
+              <FormField control={form.control} name='dueDate'
+                render={({field,}: {field: ControllerRenderProps<z.infer<typeof invoiceSchema>, 'dueDate'>;}) => (
                   <FormItem className="flex flex-col">
                   <FormLabel>Due Date</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-[240px] pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "PPP")
+                        <Button variant={"outline"}
+                          className={cn("w-[240px] pl-3 text-left font-normal",!field.value && "text-muted-foreground")}>
+                          {field.value ? (format(field.value, "PPP")
                           ) : (
                             <span>Pick a date</span>
                           )}
@@ -286,11 +224,7 @@ interface InvoiceFormProps {
                       </FormControl>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) =>
+                      <Calendar mode="single" selected={field.value} onSelect={field.onChange} disabled={(date) =>
                           date > new Date() || date < new Date("1900-01-01")
                         }
                         initialFocus
@@ -303,79 +237,62 @@ interface InvoiceFormProps {
               />
             </div>
             <div>
-            <FormField
-              control={form.control}
-              name='paidAt'
-              render={({
-                field,
-              }: {
-                field: ControllerRenderProps<
-                  z.infer<typeof invoiceSchema>, 'paidAt'
-                >;
-              }) => (
-                <FormItem className='flex flex-col'>
-                  <FormLabel>Pait at </FormLabel>
-                  <Popover>
-                  <PopoverTrigger asChild>
+              <FormField control={form.control} name='paidAt'
+                render={({field,}: {field: ControllerRenderProps<z.infer<typeof invoiceSchema>, 'paidAt'>;}) => (
+                  <FormItem className='flex flex-col'>
+                    <FormLabel>Pait at </FormLabel>
+                    <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button variant={"outline"}
+                          className={cn("w-[240px] pl-3 text-left font-normal",!field.value && "text-muted-foreground")}>
+                          {field.value ? (format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar mode="single" selected={field.value} onSelect={field.onChange} disabled={(date) =>
+                          date > new Date() || date < new Date("1900-01-01")
+                        }
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div>
+              <FormField control={form.control} name='balance'
+                render={({field,}: {field: ControllerRenderProps<z.infer<typeof invoiceSchema>, 'balance'>;}) => (
+                  <FormItem className='w-full'>
+                    <FormLabel>Balance in pounds</FormLabel>
                     <FormControl>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-[240px] pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value ? (
-                          format(field.value, "PPP")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
+                      <Input placeholder='Balance' {...field} />
                     </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={(date) =>
-                        date > new Date() || date < new Date("1900-01-01")
-                      }
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
             <div className='flex flex-col gap-5 md:flex-row'>
-            <FormField
-              control={form.control}
-              name='comments'
-              render={({
-                field,
-              }: {
-                field: ControllerRenderProps<
-                  z.infer<typeof invoiceSchema>,"comments"
-                >;
-              }) => (
-                <FormItem className='w-full'>
-                  <FormLabel>Comments</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Comments"
-                      className="resize-none"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+              <FormField control={form.control} name='comments'
+                render={({field,}: {field: ControllerRenderProps<z.infer<typeof invoiceSchema>,"comments">;}) => (
+                  <FormItem className='w-full'>
+                    <FormLabel>Comments</FormLabel>
+                    <FormControl>
+                      <Textarea placeholder="Comments" className="resize-none" {...field}/>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <div className='flex gap-2'>
               <Button type='submit' disabled={isPending}>
                 {isPending ? (
@@ -390,14 +307,10 @@ interface InvoiceFormProps {
         </Form>
         {mode === 'edit' ? <> 
             <Form {...form}>
-              <form
-                method='post'
-                onSubmit={form.handleSubmit(onDelete)}
-                className='space-y-4'
-              >
+              <form method='post' onSubmit={form.handleSubmit(onDelete)} className='space-y-4'>
                 <div className='flex gap-2'>
-                  <Button type='submit' disabled={isPending} className=' bg-red-700'>
-                    {isPending ? (
+                  <Button type='submit' disabled={isDeleting} className=' bg-red-700'>
+                    {isDeleting ? (
                       <Loader className='animate-spin w-4 h-4' />
                     ) : (
                       <ArrowRight className='w-4 h-4' />

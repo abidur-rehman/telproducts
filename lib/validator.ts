@@ -19,6 +19,7 @@ export const invoiceSchema = z.object({
   status: z.enum(VALUES),
   dueDate: z.coerce.date(),
   paidAt: z.coerce.date(),
+  balance: currency,
   comments: z.string()
 });
 

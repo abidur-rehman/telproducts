@@ -6,25 +6,27 @@ import {
     TableHead,
     TableHeader,
     TableRow,
+    TableFooter
 } from "@/components/ui/table"
 
 import { formatDate } from "@/lib/utils";
+import { Invoice } from "@/types";
 import Link from 'next/link';
 
 const InvoiceList = ({
-    data,
-    customerId,
-    name,
-    limit,
+    data, customerId, name, limit,
   }: {
-    data: unknown[];
-    customerId: string;
-    name: string;
-    limit?: number;
+    data: Invoice[]; customerId: string; name: string; limit?: number;
   }) => {
-    const limitedData = limit ? data.slice(0, limit) : data;
+  const limitedData = limit ? data.slice(0, limit) : data;
+
+  const totalBalance = data.reduce((sum, { balance }) => {
+    const numericBalance = parseFloat(balance);
+    return sum + (isNaN(numericBalance) ? 0 : numericBalance);
+  }, 0);
 
   console.log('customerId', customerId);
+  console.log('invoices ', limitedData);
 
   if (limitedData.length < 1) {
     return (
@@ -54,6 +56,7 @@ const InvoiceList = ({
             <TableHead className="w-[80px]">Status</TableHead>
             <TableHead  className="w-[70px]">Due Date</TableHead>
             <TableHead  className="w-[70px]">Paid At</TableHead>
+            <TableHead  className="w-[70px]">Balance</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -73,9 +76,16 @@ const InvoiceList = ({
               <TableCell>{invoice.status}</TableCell>
               <TableCell>{formatDate(invoice.dueDate)}</TableCell>
               <TableCell>{formatDate(invoice.paidAt)}</TableCell>
+              <TableCell>£{invoice.balance}</TableCell>
             </TableRow>
           ))}
         </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TableCell colSpan={6} className="text-right font-extrabold">Total Balance</TableCell>
+            <TableCell className="text-left font-extrabold">£{totalBalance}</TableCell>
+          </TableRow>
+        </TableFooter>
       </Table>
       <Button className="mt-8">
         <Link

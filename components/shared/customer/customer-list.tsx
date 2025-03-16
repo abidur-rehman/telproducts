@@ -9,12 +9,13 @@ import {
 } from "@/components/ui/table"
 import CustomerAddress from "./customer-address";
 import { Button } from "@/components/ui/button";
+import { Customer } from "@/types";
 
 const CustomerList = ({
     data,
     limit,
   }: {
-    data: unknown[];
+    data: Customer[];
     limit?: number;
   }) => {
     const limitedData = limit ? data.slice(0, limit) : data;
