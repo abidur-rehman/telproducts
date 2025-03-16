@@ -14,3 +14,14 @@ export async function getLatestProducts() {
 
   return convertToPlainObject(data);
 }
+
+export async function getFeaturedProducts() {
+  const prisma = new PrismaClient();
+  const data = await prisma.product.findMany({
+    where: { isFeatured: true },
+    orderBy: { createdAt: 'desc' },
+    take: 4,
+  });
+
+  return convertToPlainObject(data);
+}

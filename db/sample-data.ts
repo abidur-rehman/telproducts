@@ -14,8 +14,8 @@ const sampleData = {
       rating: 4.4,
       numReviews: 160,
       stock: 15,
-      isFeatured: true,
-      banner: 'banner-1.jpg',
+      isFeatured: false,
+      banner: '/images/banner-1.jpg',
     },
     {
       name: 'Tristar Cookware Black',
@@ -32,7 +32,7 @@ const sampleData = {
       numReviews: 200,
       stock: 29,
       isFeatured: true,
-      banner: 'banner-1.jpg',
+      banner: '/images/banner-1.jpg',
     },
     {  
       name: 'Tristar Champagne Bucket',
@@ -49,7 +49,7 @@ const sampleData = {
       numReviews: 700,
       stock: 5,
       isFeatured: true,
-      banner: 'banner-1.jpg',
+      banner: '/images/banner-2.jpg',
     }, 
     {
       name: 'Tristar Champagne Bucket 20cm',
@@ -65,8 +65,8 @@ const sampleData = {
       rating: 4.7,
       numReviews: 700,
       stock: 5,
-      isFeatured: true,
-      banner: 'banner-1.jpg',
+      isFeatured: false,
+      banner: '/images/banner-1.jpg',
     },    
     {
       name: 'Supreme 3 Pcs Set',
@@ -82,8 +82,8 @@ const sampleData = {
       rating: 4.8,
       numReviews: 77,
       stock: 15,
-      isFeatured: true,
-      banner: 'banner-1.jpg',
+      isFeatured: false,
+      banner: '/images/banner-1.jpg',
     },    
     {
       name: 'Sonex Diecast Set',
@@ -100,7 +100,7 @@ const sampleData = {
       numReviews: 198,
       stock: 15,
       isFeatured: true,
-      banner: 'banner-1.jpg',
+      banner: '/images/banner-3.jpg',
     },    
     {
       name: 'Sonex Fryingpan Set',
@@ -116,8 +116,8 @@ const sampleData = {
       rating: 4.8,
       numReviews: 198,
       stock: 15,
-      isFeatured: true,
-      banner: 'banner-1.jpg',
+      isFeatured: false,
+      banner: '/images/banner-1.jpg',
     },    
     {
       name: 'Sonex Fryingpan 22cm',
@@ -133,8 +133,8 @@ const sampleData = {
       rating: 4.8,
       numReviews: 98,
       stock: 190,
-      isFeatured: true,
-      banner: 'banner-1.jpg',
+      isFeatured: false,
+      banner: '/images/banner-1.jpg',
     },    
     {
       name: 'Royal Die-cast set',
@@ -150,8 +150,8 @@ const sampleData = {
       rating: 4.8,
       numReviews: 98,
       stock: 190,
-      isFeatured: true,
-      banner: 'banner-1.jpg',
+      isFeatured: false,
+      banner: '/images/banner-1.jpg',
     }
   ],
 };
