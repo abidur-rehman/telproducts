@@ -1,8 +1,6 @@
 import Image from 'next/image';
 import loader from '@/assets/loader.gif';
 
-export const revalidate = 0;
-
 const Loading = () => {
   return (
     <div
