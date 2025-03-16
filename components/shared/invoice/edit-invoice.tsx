@@ -214,7 +214,7 @@ interface InvoiceFormProps {
                   >;
                 }) => (
                   <FormItem className='w-full'>
-                    <FormLabel>Amount</FormLabel>
+                    <FormLabel>Amount in pounds</FormLabel>
                     <FormControl>
                       <Input placeholder='Amount' {...field} />
                     </FormControl>

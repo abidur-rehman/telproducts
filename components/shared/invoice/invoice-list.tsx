@@ -69,7 +69,7 @@ const InvoiceList = ({
                 </Link>
               </TableCell>
               <TableCell>{formatDate(invoice.invoiceDate)}</TableCell>
-              <TableCell>{invoice.amount}</TableCell>
+              <TableCell>£{invoice.amount}</TableCell>
               <TableCell>{invoice.status}</TableCell>
               <TableCell>{formatDate(invoice.dueDate)}</TableCell>
               <TableCell>{formatDate(invoice.paidAt)}</TableCell>
