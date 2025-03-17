@@ -10,6 +10,7 @@ import { ControllerRenderProps } from 'react-hook-form';
 import { toast } from 'sonner';
 import { useTransition, useEffect } from 'react';
 import { updateInvoice, deleteInvoiceById } from '@/lib/actions/invoice.actions';
+import { addDays } from "date-fns";
 
 import {
     Form,
@@ -94,6 +95,7 @@ interface InvoiceFormProps {
 
     useEffect(() => {
       if (invoice) {
+        console.log('useEffect called ', invoice);
         Object.entries(invoice).forEach(([key, value]) => {
           form.setValue(key as keyof typeof invoice, value);
         });
@@ -255,6 +257,13 @@ interface InvoiceFormProps {
                       </FormControl>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
+                    <div className="p-2">
+                      <Button variant="ghost" 
+                        onClick={() => field.onChange(null)}
+                        className="w-full justify-start text-left font-normal">
+                        Clear date
+                      </Button>
+                    </div>                    
                       <Calendar mode="single" selected={field.value} onSelect={field.onChange} disabled={(date) =>
                           date > new Date() || date < new Date("1900-01-01")
                         }
